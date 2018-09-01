@@ -19,6 +19,7 @@ struct Position {
 
 class Player {
 public:
+    Player();
     Player(int, int);
     ~Player();
     

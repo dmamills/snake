@@ -12,7 +12,9 @@
 		85BF3F9921397DFF00949ACE /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85BF3F9821397DFF00949ACE /* Video.cpp */; };
 		85BF3F9D21397E9900949ACE /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85BF3F9B21397E9900949ACE /* Game.cpp */; };
 		85BF3FA02139805800949ACE /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85BF3F9E2139805800949ACE /* Player.cpp */; };
-		85BF3FA22139CA2D00949ACE /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BF3FA12139CA2D00949ACE /* SDL2_ttf.framework */; };
+		C6BD9FE6213A329D000FC5A8 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BF3FA12139CA2D00949ACE /* SDL2_ttf.framework */; };
+		C6BD9FEB213A3410000FC5A8 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6BD9FEA213A3410000FC5A8 /* GameScene.cpp */; };
+		C6BD9FEE213A3F0E000FC5A8 /* TitleScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6BD9FED213A3F0E000FC5A8 /* TitleScreen.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +41,9 @@
 		85BF3F9E2139805800949ACE /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		85BF3F9F2139805800949ACE /* Player.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
 		85BF3FA12139CA2D00949ACE /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
+		C6BD9FEA213A3410000FC5A8 /* GameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		C6BD9FEC213A3E9D000FC5A8 /* Scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Scene.hpp; sourceTree = "<group>"; };
+		C6BD9FED213A3F0E000FC5A8 /* TitleScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TitleScreen.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85BF3FA22139CA2D00949ACE /* SDL2_ttf.framework in Frameworks */,
+				C6BD9FE6213A329D000FC5A8 /* SDL2_ttf.framework in Frameworks */,
 				85BF3F9621397D0700949ACE /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +79,7 @@
 		85BF3F8C21397CF400949ACE /* snake */ = {
 			isa = PBXGroup;
 			children = (
+				C6BD9FEF213A4622000FC5A8 /* Scenes */,
 				85BF3F9821397DFF00949ACE /* Video.cpp */,
 				85BF3F9721397DFF00949ACE /* Video.hpp */,
 				85BF3F8D21397CF400949ACE /* main.cpp */,
@@ -93,6 +99,16 @@
 				85BF3F9521397D0700949ACE /* SDL2.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C6BD9FEF213A4622000FC5A8 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C6BD9FED213A3F0E000FC5A8 /* TitleScreen.cpp */,
+				C6BD9FEA213A3410000FC5A8 /* GameScene.cpp */,
+				C6BD9FEC213A3E9D000FC5A8 /* Scene.hpp */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +170,8 @@
 				85BF3FA02139805800949ACE /* Player.cpp in Sources */,
 				85BF3F9D21397E9900949ACE /* Game.cpp in Sources */,
 				85BF3F8E21397CF400949ACE /* main.cpp in Sources */,
+				C6BD9FEB213A3410000FC5A8 /* GameScene.cpp in Sources */,
+				C6BD9FEE213A3F0E000FC5A8 /* TitleScreen.cpp in Sources */,
 				85BF3F9921397DFF00949ACE /* Video.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +291,7 @@
 		85BF3F9221397CF400949ACE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z7S85LAS2H;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -280,12 +299,14 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		85BF3F9321397CF400949ACE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z7S85LAS2H;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -293,6 +314,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

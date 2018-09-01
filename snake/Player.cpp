@@ -9,6 +9,8 @@
 #include "Player.hpp"
 #include "constants.h"
 
+Player::Player() : Player(15, 15) {}
+
 Player::Player(int x, int y) {
     
     for(auto i = 0; i < STARTING_SIZE; i++) {

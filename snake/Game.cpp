@@ -8,13 +8,22 @@
 
 #include "Game.hpp"
 
-Game::Game() : mPlayer(15, 15) {
+#include "Scenes/GameScene.cpp"
+#include "Scenes/TitleScreen.cpp"
+
+Game::Game() {
     mScreen.init();
     mScreen.clearScreen();
-    mScore = 0;
+    
+    mScenes.push_back(new TitleScene(&mScreen));
+    mScenes.push_back(new GameScene(&mScreen));
 }
 
-Game::~Game() {}
+Game::~Game() {
+    for(auto s : mScenes) {
+        delete s;
+    }
+}
 
 Uint32 Game::getTime() {
     Uint32 now;
@@ -30,130 +39,38 @@ Uint32 Game::getTime() {
 void Game::start() {
     
     mRunning = true;
-    mInGame = false;
     mNextTime = SDL_GetTicks() + SCREEN_TICKS_PER_FRAME;
     
-    resetGame();
-    
     while(mRunning) {
-        SDL_Event e;
-        while( SDL_PollEvent( &e ) != 0 )
-        {
-            if( e.type == SDL_QUIT )
-            {
-                mRunning = false;
-            } else if(e.type == SDL_KEYDOWN) {
-                SDL_Keycode key = e.key.keysym.sym;
-                
-                if(!mInGame && key == SDLK_SPACE) {
-                    mInGame = true;
-                    resetGame();
-                } else {
-                
-                    Position playerPosition = mPlayer.getDirection();
-                    if(key == SDLK_UP && playerPosition.y != 1) {
-                        mPlayer.setDirection(0, -1);
-                    }
-                    
-                    if(key == SDLK_DOWN && playerPosition.y != -1) {
-                        mPlayer.setDirection(0, 1);
-                    }
-                    
-                    if(key == SDLK_LEFT && playerPosition.x != 1) {
-                        mPlayer.setDirection(-1, 0);
-                    }
-                    
-                    if(key == SDLK_RIGHT && playerPosition.x != -1) {
-                        mPlayer.setDirection(1, 0);
-                    }
-                }
-            }
-        }
-        
-        this->update();
-        this->render();
-        
-        SDL_Delay(getTime());
-        mNextTime += SCREEN_TICKS_PER_FRAME;
+        update();
     }
-}
-
-void Game::setNewTarget() {
-    mTarget.x = rand() % PIXELS_WIDTH;
-    mTarget.y = rand() % PIXELS_HEIGHT;
 }
 
 void Game::update() {
-    
-    if(mInGame) {
-        this->updateGame();
-    }
-}
-
-void Game::updateGame() {
-    Position head;
-    auto body = mPlayer.getBody();
-    Position direction = mPlayer.getDirection();
-    Position currentHead = body.front();
-    head.x = currentHead.x += direction.x;
-    head.y = currentHead.y += direction.y;
-    
-    for(auto it = body.begin(); it != body.end(); it++) {
-        if(it->x == head.x && it->y == head.y) {
-            mInGame = false;
-            SDL_Delay(500);
+    SDL_Event e;
+    while( SDL_PollEvent( &e ) != 0 )
+    {
+        if( e.type == SDL_QUIT )
+        {
+            mRunning = false;
         }
     }
     
-    if(head.x == mTarget.x && head.y == mTarget.y) {
-        setNewTarget();
-        mScore++;
+    int sceneTransition = -1;
+    
+    mScenes[mCurrentScene]->update(&e, &sceneTransition);
+    
+    if(sceneTransition > -1) {
+        mCurrentScene = sceneTransition;
+        SDL_Delay(200);
+        
     } else {
-        mPlayer.remove();
-    }
-    
-    if(head.x > PIXELS_WIDTH - 1) {
-        head.x = 0;
-    } else if(head.x < 0) {
-        head.x = PIXELS_WIDTH - 1;
-    }
-    
-    if(head.y > PIXELS_HEIGHT - 1) {
-        head.y = 0;
-    } else if(head.y < 0) {
-        head.y = PIXELS_HEIGHT - 1;
-    }
-    
-    mPlayer.add(head);
+        mScenes[mCurrentScene]->render();
+        SDL_Delay(getTime());
+        mNextTime += SCREEN_TICKS_PER_FRAME;
+    }    
 }
 
 void Game::render() {
-    if(mInGame) {
-        this->renderGame();
-    } else {
-        mScreen.clearRenderer();
-        mScreen.drawText(60, 120-75, 500, 75, "SNAKE PRESS SPACE KEY TO START");
-        mScreen.callRenderer();
-    }
-}
-
-void Game::renderGame() {
-    mScreen.clearRenderer();
-    mScreen.clearScreen();
-    auto body = mPlayer.getBody();
-    for(auto it = body.begin(); it != body.end();it++) {
-        mScreen.setPixel(it->x, it->y, true);
-    }
-    
-    mScreen.setPixel(mTarget.x, mTarget.y, true);
-    mScreen.drawScreen();
-    
-    mScreen.drawText(5, 5, 75, 20, "Score: " + std::to_string(mScore));
-    mScreen.callRenderer();
-}
-
-void Game::resetGame() {
-    mScore = 0;
-    mPlayer = Player(10, 10);
-    setNewTarget();
+    mScenes[mCurrentScene]->render();
 }

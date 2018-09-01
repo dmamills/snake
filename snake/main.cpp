@@ -11,7 +11,6 @@
 
 int main(int argc, const char * argv[]) {
     
-
     srand((unsigned) time(NULL));
     Game g;
     g.start();

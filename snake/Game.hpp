@@ -11,6 +11,8 @@
 
 #include "Video.hpp"
 #include "Player.hpp"
+#include "Scene.hpp"
+#include <vector>
 #include <stdio.h>
 
 class Game {
@@ -21,22 +23,15 @@ public:
     
 private:
     Video mScreen;
-    Player mPlayer;
     bool mRunning;
-    bool mInGame;
     Uint32 mNextTime;
-    int mScore;
-    Position mTarget;
+    std::vector<Scene*> mScenes;
+    int mCurrentScene = 0;
     
     void update();
     void render();
-    
-    void updateGame();
-    void renderGame();
-    void resetGame();
-    
     Uint32 getTime();
-    void setNewTarget();
+
 };
 
 #endif /* Game_hpp */

@@ -28,4 +28,7 @@ const SDL_Color BLACK = { 0, 0, 0 };
 
 static const std::string FONT_FILENAME = "/Library/Fonts/Arial.ttf";
 
+const int TITLE_STATE = 0;
+const int GAME_STATE = 1;
+
 #endif /* constants_h */
